@@ -21,31 +21,6 @@ class Dialog:
         return ("Nome: {0}\nImagem: {1}\nTexto: {2}".format(self.name, self.bg_image, self.line))
 # ---------------------------------------------------------------------------------------------------#
 
-class Color(dict):
-    def __init__(self, red=0, green=0, blue=0):
-        self["red"] = self.color_convert(red)
-        self["green"] = self.color_convert(green)
-        self["blue"] = self.color_convert(blue)
-
-    def color_convert(self, value):
-        return value*65535/255
-
-    @staticmethod
-    def grey_scale(value):
-        return Color(value, value, value)
-
-    @staticmethod
-    def red(value=255):
-        return Color(red = value)
-
-    @staticmethod
-    def green(value=255):
-        return Color(green = value)
-
-    @staticmethod
-    def blue(value=255):
-        return Color(blue = value)
-
 class diag_box(gtk.EventBox):
 
 	def __init__(self, color):
