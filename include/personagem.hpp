@@ -1,5 +1,6 @@
 #ifndef _PERSONAGEM_H
 #define _PERSONAGEM_H
+
 #include "basic.hpp"
 
 typedef struct{
@@ -9,29 +10,28 @@ typedef struct{
 
 class Personagem{
 protected:
-	int idade;
-	string sala;
-	string nome;
-	string descricao;
+    string nome;
+    string apelido;
+    int idade;
+    string sala;
+    string descricao;
 public:
 	
 };
 
 class Mulher: public Personagem{
 protected:
+    vector<string> interesses;
 	Afinidade afinidade;
 	int tesao;
-	float altura;
-	string apelido;
-	vector<string> interesse;
 public:
 };
 
 class Jogador: public Personagem{
 protected:
+    vector<Mulher> relacoes;
 	int carisma;
 	int sorte;
-	vector<Mulher> conhecidos;
 public:
 };
 

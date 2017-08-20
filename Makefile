@@ -8,7 +8,12 @@ BIN = main
 #Directories
 IDIR = ./include
 SDIR = ./src
-ODIR = ./obj
+
+ifeq ($(OS),Windows_NT)
+	ODIR =./obj/windows
+else
+	ODIR =./obj/linux
+endif
 
 #Paths
 INCLUDE_PATHS = -I$(IDIR)

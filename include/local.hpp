@@ -1,6 +1,8 @@
 #ifndef _LOCAL_H
 #define _LOCAL_H
+
 #include "evento.hpp"
+#include "personagem.hpp"
 
 class Local{
 protected:
@@ -12,7 +14,7 @@ protected:
 class Mapa{
 protected:
 	vector<Local> local;
+    Jogador jogador;
 };
-
 
 #endif //_LOCAL_H
