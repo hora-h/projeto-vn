@@ -1,0 +1,21 @@
+SCRIPT 00N
+
+#Main
+@<Nome><img.png; Personagem_pos1.png>"Vc foi a escola hj?"
+@<Nome2><none; Personagem_pos2.png>"Nao fui..."
+
+?BEGIN
+<flag necessaria para destravar escolha>"texto da escolha 1"<flag que ativa quando escolhida><label da escolha 1>
+<flag>"texto da escolha 2"<flag><label>
+<flag>"texto da escolha 3"<flag><label>
+?END
+
+#label da escolha 1
+@<Nome><img.png; Personagem_pos1.png>"blah blah blah?"
+@<Nome2><none; Personagem_pos2.png>"mas fala..."
+>EXIT //muda a seção
+
+<label da 2>
+...
+
+$EXIT

@@ -1,5 +1,5 @@
-#ifndef _EVENTO_H
-#define _EVENTO_H
+#ifndef EVENTO_H
+#define EVENTO_H
 
 #include "dialogo.hpp"
 
@@ -12,3 +12,4 @@ protected:
 	vector<Cena> cenas;
 };
 
+#endif //EVENTO.H
