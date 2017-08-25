@@ -3,43 +3,60 @@ CC = g++
 CFLAGS = -g -Wall -MMD
 
 #Binary
-BIN = main
+ifeq ($(OS),Windows_NT)
+    BIN = main.exe
+else
+    BIN = main
+endif
 
 #Directories
 IDIR = ./include
 SDIR = ./src
 
 ifeq ($(OS),Windows_NT)
-	ODIR =./obj/windows
+	ODIR = ./obj/windows
 else
-	ODIR =./obj/linux
+	ODIR = ./obj/linux
 endif
+
+#Files
+HEADER = .hpp
+SOURCE = .cpp
 
 #Paths
 INCLUDE_PATHS = -I$(IDIR)
+
+#Libraries
+LIBRARIES = 
 
 #Compilation line
 COMPILE = $(CC) $(CFLAGS) $(INCLUDE_PATHS)
 
 #FILEs
 #---------------Include---------------#
-INCS = $(wildcard $(IDIR)/*.hpp)
+INCS = $(wildcard $(IDIR)/*$(HEADER)) $(wildcard $(IDIR)/*/*$(HEADER))
+
 #---------------Source----------------#
-SRCS = $(wildcard $(SDIR)/*.cpp)
+SRCS = $(wildcard $(SDIR)/*$(SOURCE)) $(wildcard $(SDIR)/*/*$(SOURCE))
+
 #---------------Object----------------#
-OBJS = $(SRCS:$(SDIR)/%.cpp=$(ODIR)/%.o)
+OBJS = $(SRCS:$(SDIR)/%$(SOURCE)=$(ODIR)/%.o)
 #-------------Dependency--------------#
-DEPS = $(SRCS:$(SDIR)/%.cpp=$(ODIR)/%.d)
+DEPS = $(SRCS:$(SDIR)/%$(SOURCE)=$(ODIR)/%.d)
 
 all: $(OBJS)
-	$(COMPILE) $(OBJS) main.cpp -o $(BIN)
+	$(COMPILE) $(OBJS) main$(SOURCE) -o $(BIN) $(LIBRARIES)
+
+dll: LIBRARIES+= -lm -fPIC
+dll: $(OBJS)
+	$(COMPILE) -shared -o libguisdl.so $(OBJS) $(LIBRARIES)
 
 # Include all .d files
 -include $(DEPS)
 
-$(ODIR)/%.o: $(SDIR)/%.cpp $(IDIR)/%.hpp
-	$(COMPILE) -MMD -c $< -o $@ $(LIBS)
+$(ODIR)/%.o: $(SDIR)/%$(SOURCE)
+	$(COMPILE) -MMD -c $< -o $@ $(LIBRARIES)
 
 .PHONY : clean
 clean :
-	-rm $(BIN).d $(OBJS) $(DEPS)
+	-rm $(BIN) $(OBJS) $(DEPS)
