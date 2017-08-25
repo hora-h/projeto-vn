@@ -60,9 +60,9 @@ Dialogo::Dialogo(const char *arquivo){
                     break;
                 case '?':
                     if(line == "BEGIN"){
-                        cout << "Pergunta inicio\n";
+                        //cout << "Pergunta inicio\n";
                     }else if(line == "END"){
-                        cout << "Pergunta fim\n";
+                        //cout << "Pergunta fim\n";
                     }
                     break;
 				case '>':
@@ -73,10 +73,10 @@ Dialogo::Dialogo(const char *arquivo){
 					this->secoes[line] = this->atual;
                     break;
                 case '$':
-                    cout << "variável: " + line << endl;
+                    //cout << "variável: " + line << endl;
                     break;
                 default:
-                    cout << "INVALIDO: " + line << endl;
+                    //cout << "INVALIDO: " + line << endl;
                     break;
             }
         }
