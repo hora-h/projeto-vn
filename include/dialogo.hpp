@@ -1,38 +1,54 @@
 #ifndef _DIALOGO_H
 #define _DIALOGO_H
 
+#include <memory>
 #include <fstream>
 #include "personagem.hpp"
 #include "cena.hpp"
 #include "utils/utils.hpp"
 
 class Fala {
-    protected:
+    public:
         string nome;
         string mensagem;
         string bg;
 		string fg;
     public:
+		Fala();
         Fala(string nome, string mensagem);
         Fala(string formato);
-        void mostra();
+        virtual string mostra();
 };
 
-/*class Escolha : public Fala {
-protected:
-    vector<string> opcoes;
-    vector<string> flags_que_ativa;
-};*/
+class Opcao{
+	protected:
+		string texto;
+		vector<string> flags_que_depende;
+		vector<string> flags_que_ativa;
+		string secao;
+	public:
+		Opcao(string formato);
+		string mostra();
+};
+
+class Escolha : public Fala {
+	protected:
+		vector<Opcao> opcoes;
+	public:
+		Escolha();
+		void add_opcao(const Opcao& opcao);
+		string mostra();
+};
 
 class Secao {
 	public:
 		string nome;
-		vector<Fala> falas;
+		vector<unique_ptr<Fala>> falas;
 		Secao *proxima;
 	public:
 		Secao(string nome);
 		string get_nome();
-		void insere_fala(const Fala& fala);
+		void insere_fala(unique_ptr<Fala> fala);
 		void link(Secao *proxima);
 };
 

@@ -7,6 +7,10 @@
 
 using namespace std;
 
+/**
+ * Flags do jogo. Composta por uma string identificadora e um bool que indica se
+ * está ativa.
+ */
 #define Flag map<string,bool>
 
 extern Flag flag_list;

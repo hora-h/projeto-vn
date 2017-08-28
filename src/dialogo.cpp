@@ -1,5 +1,7 @@
 #include "dialogo.hpp"
 
+Fala::Fala(){}
+
 Fala::Fala(string nome, string mensagem){
     this->nome = nome;
     this->mensagem = mensagem;
@@ -8,23 +10,61 @@ Fala::Fala(string nome, string mensagem){
 Fala::Fala(string formato){
     //Nome
     size_t fim;
-    tie(this->nome, fim) = find_inside(formato, '<', '>', 0);
+    this->nome = find_inside(formato, '<', '>', 0, &fim);
     
     //Imagens
-	tie(this->bg, fim) = find_inside(formato, '<', ';', fim);
-	tie(this->fg, fim) = find_inside(formato, ';', '>', fim);
+	this->bg = find_inside(formato, '<', ';', fim, &fim);
+	this->fg = find_inside(formato, ';', '>', fim, &fim);
     
     //Mensagem
-	tie(this->mensagem, fim) = find_inside(formato, '"', '"', fim);
+	this->mensagem = find_inside(formato, '"', '"', fim, nullptr);
 }
 
-void Fala::mostra(){
+string Fala::mostra(){
 	string out;
-	out = "nome: " + this->nome + "\n" +
+	out = "FALA\n"
+		  "nome: " + this->nome + "\n" +
 		  "bg: " + this->bg + "\n" + 
 		  "fg: " + this->fg + "\n" + 
 		  "fala: " + this->mensagem + "\n";
-    cout << out;
+    return out;
+}
+
+Opcao::Opcao(string formato){
+	string::size_type inicio = 0;
+	this->flags_que_depende = split(find_inside(formato, '<', '>', inicio, &inicio), ';');
+	this->texto = find_inside(formato, '"', '"', inicio, &inicio);
+	this->flags_que_ativa = split(find_inside(formato, '<', '>', inicio, &inicio), ';');
+	this->secao = find_inside(formato, '<', '>', inicio, &inicio);
+}
+
+string Opcao::mostra(){
+	string out;
+	out = "OPÇÃO: " + this->texto + "\nfD:\n";
+	for(string f: this->flags_que_depende){
+		out += "  " + f + ";";
+	}
+	out += "\nfA:\n";
+	for(string f: this->flags_que_ativa){
+		out += "  " + f + ";";
+	}
+	out+= "\nsecao: " + this->secao + "\n";
+    return out;
+}
+
+Escolha::Escolha(){
+}
+
+void Escolha::add_opcao(const Opcao& opcao){
+	this->opcoes.push_back(opcao);
+}
+
+string Escolha::mostra(){
+	string out = "ESCOLHA:\n";
+	for(auto o: this->opcoes){
+		out += o.mostra();
+	}
+	return out;
 }
 
 Secao::Secao(string nome){
@@ -35,8 +75,8 @@ string Secao::get_nome(){
 	return this->nome;
 }
 
-void Secao::insere_fala(const Fala& fala){
-	this->falas.push_back(fala);
+void Secao::insere_fala(unique_ptr<Fala> fala){
+	this->falas.emplace_back(fala);
 }
 
 Dialogo::Dialogo(const char *arquivo){
@@ -55,12 +95,20 @@ Dialogo::Dialogo(const char *arquivo){
             line = full_line.substr(1);
             switch(full_line[0]){
                 case '@':
-                    //this->secoes[this->atual->get_nome()]->insere_fala(Fala(line));
-					this->atual->insere_fala(Fala(line));
+					this->atual->insere_fala(new Fala(line));
                     break;
                 case '?':
                     if(line == "BEGIN"){
-                        //cout << "Pergunta inicio\n";
+						Escolha *escolha = new Escolha();
+                        while(true){
+							getline(in, line);
+							if(line == "?END"){
+								cout << "SAI CARAI\n";
+								break;
+							}
+							escolha->add_opcao(Opcao(line));
+						}
+						this->atual->insere_fala(escolha);
                     }else if(line == "END"){
                         //cout << "Pergunta fim\n";
                     }
@@ -71,9 +119,6 @@ Dialogo::Dialogo(const char *arquivo){
                 case '#':
 					this->atual = new Secao(line);
 					this->secoes[line] = this->atual;
-                    break;
-                case '$':
-                    //cout << "variável: " + line << endl;
                     break;
                 default:
                     //cout << "INVALIDO: " + line << endl;
