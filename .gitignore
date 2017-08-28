@@ -34,4 +34,6 @@
 # Project Folders
 nbproject
 
+\.vscode/
+
 main
