@@ -43,12 +43,12 @@ class Escolha : public Fala {
 class Secao {
 	public:
 		string nome;
-		vector<unique_ptr<Fala>> falas;
+		vector<Fala *> falas;
 		Secao *proxima;
 	public:
 		Secao(string nome);
 		string get_nome();
-		void insere_fala(unique_ptr<Fala> fala);
+		void insere_fala(Fala *fala);
 		void link(Secao *proxima);
 };
 

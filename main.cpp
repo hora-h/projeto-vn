@@ -14,7 +14,7 @@ int main(){
 		string secao = it->first;
 		cout << "---=== SEÇÃO " + secao + " ===---\n";
 		for(long long unsigned int i = 0; i<it->second->falas.size(); i++){
-			cout << it->second->falas[i].mostra();
+			cout << it->second->falas[i]->mostra();
 		}
 		cout << "----------------------\n\n";
 	}

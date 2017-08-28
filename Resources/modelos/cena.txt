@@ -5,7 +5,7 @@ SCRIPT 00N
 @<NomeMMM><none; Personagem_pos2.png>"Nao fui..."
 
 ?BEGIN
-<flag necessaria para destravar escolha>"texto da escolha 1"<flag que ativa quando escolhida><label da escolha 1>
+<flag necessaria para destravar escolha;flag 2;flag3>"texto da escolha 1"<flag que ativa quando escolhida><label da escolha 1>
 <flag>"texto da escolha 2"<flag><label2>
 <flag>"texto da escolha 3"<flag><label3>
 ?END

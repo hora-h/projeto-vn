@@ -42,7 +42,7 @@ string Opcao::mostra(){
 	string out;
 	out = "OPÇÃO: " + this->texto + "\nfD:\n";
 	for(string f: this->flags_que_depende){
-		out += "  " + f + ";";
+		out += "  (" + f + ");";
 	}
 	out += "\nfA:\n";
 	for(string f: this->flags_que_ativa){
@@ -75,7 +75,7 @@ string Secao::get_nome(){
 	return this->nome;
 }
 
-void Secao::insere_fala(unique_ptr<Fala> fala){
+void Secao::insere_fala(Fala* fala){
 	this->falas.emplace_back(fala);
 }
 
@@ -126,5 +126,4 @@ Dialogo::Dialogo(const char *arquivo){
             }
         }
     }
-    
 }
