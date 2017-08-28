@@ -7,7 +7,6 @@ SCRIPT 00N
 ?BEGIN
 <flag necessaria para destravar escolha;flag 2;flag3>"texto da escolha 1"<flag que ativa quando escolhida><label da escolha 1>
 <flag>"texto da escolha 2"<flag><label2>
-<flag>"texto da escolha 3"<flag><label3>
 ?END
 
 #label da escolha 1

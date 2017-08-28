@@ -21,7 +21,7 @@ class Fala {
 };
 
 class Opcao{
-	protected:
+	public://protected:
 		string texto;
 		vector<string> flags_que_depende;
 		vector<string> flags_que_ativa;
@@ -32,7 +32,7 @@ class Opcao{
 };
 
 class Escolha : public Fala {
-	protected:
+	public://protected:
 		vector<Opcao> opcoes;
 	public:
 		Escolha();

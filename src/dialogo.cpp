@@ -137,5 +137,6 @@ Dialogo::Dialogo(const char *arquivo){
                     break;
             }
         }
-    }
+	}
+	this->atual = this->secoes.begin()->second;
 }
