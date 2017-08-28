@@ -44,12 +44,13 @@ class Secao {
 	public:
 		string nome;
 		vector<Fala *> falas;
-		Secao *proxima;
+		string proxima;
 	public:
 		Secao(string nome);
 		string get_nome();
 		void insere_fala(Fala *fala);
-		void link(Secao *proxima);
+		void link(string proxima);
+		string get_proxima();
 };
 
 class Dialogo : public Cena {

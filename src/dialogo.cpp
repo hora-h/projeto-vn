@@ -79,7 +79,18 @@ void Secao::insere_fala(Fala* fala){
 	this->falas.emplace_back(fala);
 }
 
+void Secao::link(string proxima){
+	this->proxima = proxima;
+}
+
+string Secao::get_proxima(){
+	return this->proxima;
+}
+
 Dialogo::Dialogo(const char *arquivo){
+	
+	this->atual = nullptr;
+	
     ifstream in(arquivo);
     
     if(!in){
@@ -93,6 +104,7 @@ Dialogo::Dialogo(const char *arquivo){
     while(getline(in, full_line)){
         if(full_line.length() > 1){
             line = full_line.substr(1);
+			//cout << line << endl;
             switch(full_line[0]){
                 case '@':
 					this->atual->insere_fala(new Fala(line));
@@ -103,20 +115,20 @@ Dialogo::Dialogo(const char *arquivo){
                         while(true){
 							getline(in, line);
 							if(line == "?END"){
-								cout << "SAI CARAI\n";
 								break;
 							}
 							escolha->add_opcao(Opcao(line));
 						}
 						this->atual->insere_fala(escolha);
-                    }else if(line == "END"){
-                        //cout << "Pergunta fim\n";
                     }
                     break;
 				case '>':
-					//this->atual->link()
+					this->atual->link(line);
 					break;
                 case '#':
+					if(this->atual != nullptr && this->atual->get_proxima().empty()){
+						this->atual->link(line);
+					}
 					this->atual = new Secao(line);
 					this->secoes[line] = this->atual;
                     break;

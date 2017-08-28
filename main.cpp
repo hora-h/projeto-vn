@@ -16,6 +16,7 @@ int main(){
 		for(long long unsigned int i = 0; i<it->second->falas.size(); i++){
 			cout << it->second->falas[i]->mostra();
 		}
+		cout << "Proxima: " + it->second->proxima << endl;
 		cout << "----------------------\n\n";
 	}
 	
