@@ -1,55 +1,56 @@
 #include "personagem.hpp"
 #include "dialogo.hpp"
 
-Flag flag_list;
-
-/*inline bool instanceof(const T*) {
-    return std::is_base_of<Base, T>::value;
-}*/
-
-int main(){
-	int escolhido;
-	Dialogo *d = new Dialogo("Resources/modelos/cena.txt");
-	Secao *ptr = d->atual;
-	gambi:
-	while(!ptr->get_proxima().empty()){
-		for(auto it: d->secoes[ptr->get_nome()]->falas){
-			//cout << typeid(it).name() << endl;
-			if(dynamic_cast<const Escolha*>(it) != nullptr){
-				int i = 0;
-				printf("Escolha sensata!:\n");
-				for(auto opcao: ((Escolha*)it)->opcoes){
-					i++;
-					cout << i << ") " + opcao.texto << endl;
-				}
-				cin >> escolhido;
-				if(escolhido <= 0 || escolhido > ((Escolha*)it)->opcoes.size()){
-					throw "Opcao nao valida!\n";
-				}
-				
-				d->atual = d->secoes[((Escolha*)it)->opcoes[escolhido-1].secao];
-				ptr = d->atual;
-				goto gambi;
-				//break;
-			}
-			cout << it->nome + ": " + it->mensagem << endl;
+Secao* exibe_escolhas(Dialogo *dialogo, Escolha *escolha){
+	int i = 0, escolhido;
+	while(true){
+		for(auto opcoes: escolha->opcoes){
+			i++;
+			cout << "\t" << i << ")" << opcoes.texto << endl;
 		}
-		ptr = d->secoes[d->atual->proxima];
+		cin >> escolhido;
+		if(escolhido <= 0 || escolhido > escolha->opcoes.size()){
+			cout << "Escolha nao valida!" << endl;
+			i=0;
+		}else{
+			break;
+		}
 	}
-
-    return 0;
+	string secao = escolha->opcoes[escolhido-1].secao;
+	cout << "Secao exbEsc:" + dialogo->secoes[secao]->get_nome() << endl;
+	if(secao.empty()){
+		return NULL;
+	}
+	return dialogo->secoes[secao];
 }
 
-/*
-	Dialogo *d = new Dialogo("Resources/modelos/cena.txt");
-	
-	for(auto it = d->secoes.begin(); it != d->secoes.end(); it++){
-		string secao = it->first;
-		cout << "---=== SEÇÃO " + secao + " ===---\n";
-		for(long long unsigned int i = 0; i<it->second->falas.size(); i++){
-			cout << it->second->falas[i]->mostra();
+void pega_escolha(Dialogo *dialogo){
+	for(auto fala: dialogo->atual->falas){
+		if(instanceof(Escolha*,fala)){
+			auto secao = exibe_escolhas(dialogo,((Escolha*)fala));
+			cout <<"pega_escolha: " + secao->get_nome() << endl;
+			if(secao == NULL){
+				continue;
+			}else{
+				dialogo->atual = secao;
+				return;
+			}
 		}
-		cout << "Proxima: " + it->second->proxima << endl;
-		cout << "----------------------\n\n";
+		cout << "\t" << fala->nome << ": " << fala->mensagem << endl;
 	}
-*/
+	dialogo->atual = dialogo->secoes[dialogo->atual->proxima];
+}
+
+int main(){
+	Dialogo *cena = new Dialogo("Resources/modelos/cena.txt");
+	/**/
+	while(true){
+		//cout << ptr->nome << endl; <- Nome da sessão
+		pega_escolha(cena);
+		/*if((cena->atual->get_proxima().empty() || 
+		cena->atual->get_proxima() == "EXIT")){
+			break;
+		}*/
+	}/**/
+	return 0;
+}

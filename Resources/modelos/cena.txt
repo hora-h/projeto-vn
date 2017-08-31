@@ -17,3 +17,4 @@ SCRIPT 00N
 #label2
 @<Nome1-1><img.png; Personagem_pos1.png>"blah blah blah?"
 @<Nome1.2><none; Personagem_pos2.png>"mas fala..."
+

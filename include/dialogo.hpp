@@ -16,7 +16,8 @@ class Fala {
     public:
 		Fala();
         Fala(string nome, string mensagem);
-        Fala(string formato);
+		Fala(string formato);
+		~Fala();
         virtual string mostra();
 };
 
@@ -28,6 +29,7 @@ class Opcao{
 		string secao;
 	public:
 		Opcao(string formato);
+		~Opcao();
 		string mostra();
 };
 
@@ -36,6 +38,7 @@ class Escolha : public Fala {
 		vector<Opcao> opcoes;
 	public:
 		Escolha();
+		~Escolha();
 		void add_opcao(const Opcao& opcao);
 		string mostra();
 };
@@ -47,6 +50,7 @@ class Secao {
 		string proxima;
 	public:
 		Secao(string nome);
+		~Secao();
 		string get_nome();
 		void insere_fala(Fala *fala);
 		void link(string proxima);
@@ -62,6 +66,7 @@ class Dialogo : public Cena {
 		//TODO - info_gui
 	public:
 		Dialogo(const char *arquivo);
+		~Dialogo();
 };
 
 #endif //_DIALOGO_H

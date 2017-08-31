@@ -6,6 +6,8 @@
 #include <string>
 #include <sstream>
 
+#define instanceof(Class,Object) \
+		dynamic_cast<const Class>(Object)!=nullptr
 using namespace std;
 
 vector<string> split(string str, char delimiter);

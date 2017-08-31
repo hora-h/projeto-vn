@@ -11,7 +11,7 @@ Fala::Fala(string formato){
     //Nome
     size_t fim;
     this->nome = find_inside(formato, '<', '>', 0, &fim);
-    
+
     //Imagens
 	this->bg = find_inside(formato, '<', ';', fim, &fim);
 	this->fg = find_inside(formato, ';', '>', fim, &fim);
