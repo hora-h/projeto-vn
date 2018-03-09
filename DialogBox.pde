@@ -2,7 +2,6 @@ class DialogBox{
 
     float x, y, yd, a, yi, h, w;
     int j, size, delay;
-    color txtc;
     PImage[] imgs;
 
 
